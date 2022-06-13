@@ -545,8 +545,7 @@ export default {
     },
     scroll_bottom() {
       setTimeout(function () {
-      
-      window
+        window
           .$("#chat_history")
           .scrollTop(window.$("#chat_list_messages").height());
       }, 100);
