@@ -2,10 +2,7 @@
   <div>
     <!-- PENTRU PLACEHOLDER -->
     <template v-if="placeholders == true">
-      <div
-        class="card mb-3"
-        v-if="my_id == selected_user_id || selected_user_id == 0"
-      >
+      <div class="card mb-3" v-if="showInputPost">
         <div class="placeholder-glow card-header">
           <button class="col-2 placeholder disabled btn btn-secondary"></button>
           <button class="col-2 placeholder disabled btn btn-secondary"></button>
@@ -61,7 +58,7 @@
     <!--  -->
     <template v-else>
       <div
-        v-if="my_id == selected_user_id || selected_user_id == 0"
+        v-if="showInputPost"
         id="input-post"
         class="mb-3 card shadow-sm"
         :class="{ shake: shake }"
@@ -495,6 +492,15 @@ export default {
     post_card: { text: { required } },
   },
   computed: {
+    showInputPost() {
+      return (
+        ((this.my_id == this.selected_user_id || this.selected_user_id == 0) &&
+          this.type == "post") ||
+        (this.my_id != this.selected_user_id &&
+          this.selected_user_id != 0 &&
+          this.type == "reviews")
+      );
+    },
     // Pregatirea informatiei pentru filtru din componenta filtru
     PrepInfoForFilter: {
       get() {

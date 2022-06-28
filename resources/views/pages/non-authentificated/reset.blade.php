@@ -17,6 +17,11 @@
                     </ul>
                 </div>
             @endif
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    <strong>Mesajul pentru resetarea a fost trimis la dvs pe email!</strong>
+                </div>
+            @endif
             @if (!empty($token))
                 <form action="{{ route('password.update') }}" method="POST" class="needs-validation" novalidate>
                     @csrf

@@ -14,7 +14,7 @@ class mailController extends Controller
         $validated = $request->validate([
             'info.email' => 'required|email',
             'info.flName' => 'required',
-            'info.message' => 'required',
+            'info.message' => 'required|max:500',
             'info.subject' => 'required',
         ]);
         // insert email

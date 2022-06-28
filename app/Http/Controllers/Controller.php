@@ -348,7 +348,7 @@ class Controller extends BaseController
     public function insert_post(Request $request)
     {
         $validated = $request->validate([
-            'text' => 'required',
+            'text' => 'required|max:500',
             'type_of_post' => 'required',
             'note' => 'exclude_if:type_of_post,post|required|numeric|min:1|max:5',
             'files*' => 'image',
