@@ -13,7 +13,6 @@ export default {
   },
   methods: {
     // BUTTON ACTIONS
-
     listAction(action) {
       if (action == "delete") {
         this.deleteInfo(this.selected, this.tableName);

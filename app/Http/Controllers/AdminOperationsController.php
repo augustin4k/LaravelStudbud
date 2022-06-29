@@ -27,8 +27,8 @@ class AdminOperationsController extends Controller
     public function updateInfo(Request $request)
     {
         foreach ($request->selectedInfo as $key => $value) {
-            if ($this->checkIfRoleIsMore($value['#ID']) == false) {
-                if ($request->table == 'users') {
+            if ($request->table == 'users') {
+                if ($this->checkIfRoleIsMore($value['#ID']) == false) {
                     $user_finded = User::where('id', $value['#ID']);
                     if ($request->action == 'inactive') {
                         $user_finded->where('email_verified_at', '!=', null)
@@ -48,18 +48,18 @@ class AdminOperationsController extends Controller
                             ]);
                         }
                     }
-                } else if ($request->table == 'emails') {
-                    $emails_finded = Emails::where('id', $value['#ID']);
-                    if ($request->action == 'mark') {
-                        if ($emails_finded->first()->indeplinit_de == null) {
-                            $emails_finded->update([
-                                'indeplinit_de' => auth()->user()->email,
-                            ]);
-                        } else {
-                            $emails_finded->update([
-                                'indeplinit_de' => null,
-                            ]);
-                        }
+                }
+            } else if ($request->table == 'emails') {
+                $emails_finded = Emails::where('id', $value['#ID']);
+                if ($request->action == 'mark') {
+                    if ($emails_finded->first()->indeplinit_de == null) {
+                        $emails_finded->update([
+                            'indeplinit_de' => auth()->user()->email,
+                        ]);
+                    } else {
+                        $emails_finded->update([
+                            'indeplinit_de' => null,
+                        ]);
                     }
                 }
             }
