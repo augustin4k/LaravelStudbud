@@ -90,6 +90,7 @@
               </span>
             </button>
             <button
+              v-if='type!="setari"'
               class="nav-link hstack gap-1"
               id="list-auth-tab"
               data-bs-toggle="tab"
@@ -155,6 +156,7 @@
               />
             </div>
             <div
+              v-if='type!="setari"'
               class="tab-pane fade"
               id="list-auth"
               role="tabpanel"
@@ -230,7 +232,7 @@ export default {
     avatarDataTab,
     authDataTab,
   },
-  props: ["nameRoute", "csrfToken"],
+  props: ["type", "nameRoute", "csrfToken"],
   data() {
     return {
       ShowErrorRegister: false,

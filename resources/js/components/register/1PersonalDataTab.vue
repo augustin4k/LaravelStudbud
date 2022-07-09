@@ -438,6 +438,24 @@ export default {
       return error;
     },
   },
+  mounted() {
+    axios
+      .post("api/get_info_settings", {
+        type: "personal_data",
+      })
+      .then((response) => {
+        let dictionar = {
+          numele: "name",
+          prenumele: "surname",
+          dataNastere: "date_birth",
+          tara: "country",
+          orasul: "city",
+        };
+        for (const key in dictionar) {
+          this.personalData[key] = response.data.personalData[dictionar[key]];
+        }
+      });
+  },
   watch: {
     "personalData.dataNastere"() {
       this.$emit("sendDataNastere", this.personalData.dataNastere);

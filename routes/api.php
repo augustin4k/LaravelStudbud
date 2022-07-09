@@ -31,9 +31,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/insert_comment', "App\Http\Controllers\Controller@insert_comment")->name("insert_comment");
     Route::post('/delete_comment', "App\Http\Controllers\Controller@delete_comment")->name("delete_comment");
     // COMPARTMENTS
+    // Route::post('/filterCompartmentId', "App\Http\Controllers\Controller@filterCompartmentId")->name("filterCompartmentId");
+
     Route::post('/new_info', "App\Http\Controllers\Controller@new_info")->name("new_info");
     Route::post('/get_info_files', "App\Http\Controllers\Controller@get_info_files")->name("get_info_files");
     Route::post('/delete_something', "App\Http\Controllers\Controller@delete_something")->name("delete_something");
+    // SETTINGS
+    Route::post('/get_info_settings', "App\Http\Controllers\RegisterController@get_info_settings")->name("get_info_settings");
     Route::middleware('admin')->group(function () {
         Route::post('/getInfo', "App\Http\Controllers\AdminOperationsController@getInfo")->name("getInfo");
         Route::post('/updateInfo', "App\Http\Controllers\AdminOperationsController@updateInfo")->name("updateInfo");

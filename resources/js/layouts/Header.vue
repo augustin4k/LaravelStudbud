@@ -32,7 +32,10 @@
                   ScreenMoreMd == false ? 'offcanvasMobileNavigation' : '',
                 ]"
                 class="navbar-brand m-0"
-                :class="{ 'text-white btn btn-secondary btn-secondary': ScreenMoreMd == false }"
+                :class="{
+                  'text-white btn btn-secondary btn-secondary':
+                    ScreenMoreMd == false,
+                }"
                 :href="[ScreenMoreMd ? '/feed' : '#offcanvasMobileNavigation']"
               >
                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>
@@ -157,7 +160,7 @@
                           <small>Profilul meu</small>
                         </a>
                         <a
-                          href="/StudBud/pages/settings.php"
+                          href="/settings"
                           class="
                             list-group-item list-group-item-action
                             d-flex

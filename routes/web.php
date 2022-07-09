@@ -54,6 +54,8 @@ use App\Models\User;
         Route::get('/search', "App\Http\Controllers\Controller@search_people")->name("search-people");
         Route::view('/feed', 'pages/authentificated/feed')->name('profile-feed');
         Route::view('/files', 'pages/authentificated/files')->name('profile-files');
+        Route::view('/settings', 'pages/authentificated/settings')->name('profile-settings');
+        Route::post('/settings/update', "App\Http\Controllers\RegisterController@update_settings")->name("user-update-settings");
         // for clients that are admins
         Route::middleware('admin')->group(function () {
             Route::view('/admin-users', 'pages/administrator/users')->name('admin-users');

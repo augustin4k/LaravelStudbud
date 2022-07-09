@@ -622,37 +622,49 @@ class Controller extends BaseController
             $file = files::where('id', $id)->first();
             if ($file)
                 unlink($file->file_path);
-        } else if ($table_name == 'compartments') {
-            rmdir(public_path('img/files/compartment_' . $id));
+        } else if ($table_name == 'compartments' && File::exists(public_path('img/files/compartment_' . $id))) {
+            File::deleteDirectory(public_path('img/files/compartment_' . $id));
         }
     }
 
     // FILES API
+    
+    // public function filterCompartmentId(Request $request)
+    // {
+    //     $compartment = Compartments::where('user_id', $request->selectedUserID);
+    //     if ($request->id == null || $compartment->where('id', $request->id)->first() == null) return $compartment->first()->id;
+    //     else return $compartment->where('id', $request->id)->first()->id;
+    // }
+
     public function delete_something(Request $request)
     {
-        if (is_array($request->id) > 0)
+        if ($request->type == 'files' && is_array($request->id) > 0)
             foreach ($request->id as $key => $value) {
                 $this->delete_file($request->type, $value);
                 db::table($request->type)->where('id', $value)->delete();
             }
         else {
             $this->delete_file($request->type, $request->id);
-            db::table($request->type)->where('id', $request->id)->delete();
+            if ($request->type == 'compartments') {
+                $compartment = Compartments::where('id', $request->id);
+                $compartment->first()->files()->delete();
+                $compartment->delete();
+            }
         }
     }
     public function get_info_files(Request $request)
     {
         if ($request->type == 'files') {
-
-            if ($request->compartmentID)
+            if ($request->compartmentID) {
                 $send_info  = compartments::where([['id', $request->compartmentID], ['user_id', $request->selectedUserID]])->first();
-            else {
+            } else {
                 $send_info = compartments::where('user_id', $request->selectedUserID)->first();
             }
-            $send_info  = $send_info->files()->orderBy('files.updated_at', 'desc')->get();
+            if ($send_info)
+                return $send_info->files()->orderBy('files.updated_at', 'desc')->get();
+            else return false;
         } else
             return compartments::where('user_id', $request->selectedUserID)->get();
-        return $send_info;
     }
     public function new_info(Request $request)
     {

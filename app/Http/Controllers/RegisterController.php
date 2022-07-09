@@ -95,4 +95,10 @@ class RegisterController extends Controller
 
         return redirect()->back()->withErrors(['esuare-logare' => 'Nu te-am putut inregistra, au aparut careva probleme!']);
     }
+
+    // SETTINGS
+    public function get_info_settings(Request $req)
+    {
+        return ['personalData' => Auth::user()];
+    }
 }

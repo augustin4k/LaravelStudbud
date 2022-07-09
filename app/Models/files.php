@@ -16,6 +16,6 @@ class files extends Model
 
     public function compartments()
     {
-        // return $this->belongsToMany(self::class, Compartments::class, 'file_id', 'compartment_id');
+        // return $this->belongsToMany(Compartments::class, 'compartment_file', 'compartment_id', 'file_id');
     }
 }

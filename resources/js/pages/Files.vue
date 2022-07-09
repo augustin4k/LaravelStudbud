@@ -449,6 +449,11 @@ export default {
     },
   },
   methods: {
+    arrangeInformationAfterCRUD(table) {
+      if (table == "compartments") {
+        this.getInfo(table, null);
+      } else this.getInfo(table, this.CurrentCompartment);
+    },
     getExtension(fileName) {
       let extension = fileName.split(".");
       return extension.slice(-1);
@@ -469,46 +474,6 @@ export default {
         );
     },
     // API
-    // create
-    new_info(table) {
-      let formData = new FormData();
-      formData.append("table", table);
-      formData.append("selectedUserID", this.selected_user_id);
-      if (table == "files") {
-        formData.append("compartmentID", this.compartments.selected.id);
-        if (this.$refs.documents.files.length > 0) {
-          for (var i = 0; i < this.$refs.documents.files.length; i++) {
-            let file = this.$refs.documents.files[i];
-            formData.append("files[" + i + "]", file);
-          }
-        }
-      } else if (table == "compartments") {
-        for (let key in this.compartments.input)
-          formData.append("input[" + key + "]", this.compartments.input[key]);
-      }
-      axios
-        .post("api/new_info", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          if (table == "compartments") {
-            this.getInfo(table, null);
-          } else this.getInfo(table, this.CurrentCompartment());
-          this.clearInputs(table);
-        })
-        .catch((error) => {
-          if (table == "compartments") {
-            this.compartments.error = true;
-            this.errors = error.response.data.errors;
-            setTimeout(() => {
-              this.errors = [];
-              this.compartments.error = false;
-            }, 1500);
-          } else this.Shake(error);
-        });
-    },
     // read
     getInfo(type_of_info, compartment) {
       axios
@@ -534,6 +499,44 @@ export default {
           }
         });
     },
+    // create
+    new_info(table) {
+      let formData = new FormData();
+      formData.append("table", table);
+      formData.append("selectedUserID", this.selected_user_id);
+      if (table == "files") {
+        formData.append("compartmentID", this.compartments.selected.id);
+        if (this.$refs.documents.files.length > 0) {
+          for (var i = 0; i < this.$refs.documents.files.length; i++) {
+            let file = this.$refs.documents.files[i];
+            formData.append("files[" + i + "]", file);
+          }
+        }
+      } else if (table == "compartments") {
+        for (let key in this.compartments.input)
+          formData.append("input[" + key + "]", this.compartments.input[key]);
+      }
+      axios
+        .post("api/new_info", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          this.arrangeInformationAfterCRUD(table);
+          this.clearInputs(table);
+        })
+        .catch((error) => {
+          if (table == "compartments") {
+            this.compartments.error = true;
+            this.errors = error.response.data.errors;
+            setTimeout(() => {
+              this.errors = [];
+              this.compartments.error = false;
+            }, 1500);
+          } else this.Shake(error);
+        });
+    },
     // delete
     delete_something(id, type) {
       axios
@@ -545,10 +548,8 @@ export default {
           if (type == "compartments") {
             if (id == this.compartments.selected.id)
               this.compartments.selected.id = 0;
-            this.getInfo(type, null);
-          } else {
-            this.getInfo(type, this.CurrentCompartment());
           }
+          this.arrangeInformationAfterCRUD(type);
         });
     },
     // for styling
