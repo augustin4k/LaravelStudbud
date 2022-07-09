@@ -650,6 +650,25 @@ class Controller extends BaseController
             }
         }
     }
+    public function update_something(Request $request)
+    {
+        $request->validate([
+            'input.name' => 'required|string|max:50',
+            'input.description' => 'required|string|max:100',
+            'type' => 'required|string',
+            'id' => 'required|integer|exists:compartments,id',
+        ]);
+        if ($request->type == 'compartments') {
+            $update_compartment = Compartments::where('id', $request->id)->first();
+            foreach ($request->input as $key => $value) {
+                if ($update_compartment->$key && $update_compartment->$key != $value) {
+                    $update_compartment->$key = $value;
+                }
+            }
+            $update_compartment->save();
+            return;
+        }
+    }
     public function get_info_files(Request $request)
     {
         if ($request->type == 'files') {

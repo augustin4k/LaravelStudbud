@@ -112,9 +112,17 @@ text/plain, application/pdf"
             compartments.get_compartments &&
             compartments.get_compartments.length > 0
           "
-          class="alert alert-warning"
+          class="alert alert-info"
           role="alert"
         >
+          <strong>Denumire compartiment:</strong> <br />
+          <small class="text-dark fw-light">
+            {{
+              compartments.get_compartments.filter(
+                (item) => item.id == compartments.selected.id
+              )[0].name
+            }} </small
+          ><br />
           <strong
             >Descriere compartiment: <br />
             <small class="text-dark fw-light">
@@ -242,7 +250,9 @@ text/plain, application/pdf"
               </div>
               <div class="card-footer" :class="{ 'bg-info': file.selected }">
                 <h6 class="card-title">
-                  <a href="">{{ file.name }} </a>
+                  <a :href="'/' + removePublic(file.file_path)" target="_blank"
+                    >{{ file.name }}
+                  </a>
                 </h6>
                 <small
                   class="card-text form-text"
@@ -303,18 +313,26 @@ text/plain, application/pdf"
                 ><div @click="compartments.selected.id = compartment.id">
                   {{ compartment.name }}
                 </div>
-                <button
-                  data-bs-toggle="modal"
-                  data-bs-target="#confirmAction"
-                  @click="
-                    (modal.id = compartment.id),
-                      (modal.table = 'compartments'),
-                      (modal.confirmActionName = 'delete')
-                  "
-                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                >
-                  Delete
-                </button>
+                <div class="btn-group position-absolute top-0 end-0">
+                  <button
+                    @click="fillUpdateFields(compartment)"
+                    class="btn btn-success btn-sm"
+                  >
+                    Update
+                  </button>
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmAction"
+                    @click="
+                      (modal.id = compartment.id),
+                        (modal.table = 'compartments'),
+                        (modal.confirmActionName = 'delete')
+                    "
+                    class="btn btn-sm btn-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
               </a>
             </div>
             <div v-else class="alert alert-primary" role="alert">
@@ -338,6 +356,7 @@ text/plain, application/pdf"
                 class="form-control"
               />
               <button
+                v-if="compartments.input.flag == 'insert'"
                 @click="new_info('compartments')"
                 :class="{
                   disabled: !(
@@ -349,6 +368,29 @@ text/plain, application/pdf"
               >
                 Adauga
               </button>
+              <div v-else class="btn-group">
+                <button
+                  @click="fillUpdateFields(null)"
+                  class="btn btn-sm btn-danger"
+                >
+                  Cancel
+                </button>
+                <button
+                  @click="
+                    [
+                      compartments.input.id
+                        ? update_something(
+                            compartments.input.id,
+                            'compartments'
+                          )
+                        : '',
+                    ]
+                  "
+                  class="btn btn-sm btn-success"
+                >
+                  Update
+                </button>
+              </div>
             </div>
             <div
               v-if="$v.compartments.input.name.required"
@@ -405,7 +447,7 @@ export default {
       compartments: {
         error: false,
         selected: { id: 0 },
-        input: { name: "", description: "" },
+        input: { name: "", description: "", flag: "insert" },
         get_compartments: [],
       },
       get_files: [],
@@ -449,6 +491,24 @@ export default {
     },
   },
   methods: {
+    fillUpdateFields(compartment) {
+      if (compartment) {
+        this.compartments.input.id = compartment.id;
+        this.compartments.input.flag = "update";
+        this.compartments.input.name = compartment.name;
+        this.compartments.input.description = compartment.description;
+      } else {
+        this.compartments.input = {
+          flag: "insert",
+          name: "",
+          description: "",
+          id: 0,
+        };
+      }
+    },
+    removePublic(string) {
+      return string.replace("C:\\xampp\\htdocs\\laravelStudBud\\public/", "");
+    },
     arrangeInformationAfterCRUD(table) {
       if (table == "compartments") {
         this.getInfo(table, null);
@@ -525,6 +585,32 @@ export default {
         .then((response) => {
           this.arrangeInformationAfterCRUD(table);
           this.clearInputs(table);
+        })
+        .catch((error) => {
+          if (table == "compartments") {
+            this.compartments.error = true;
+            this.errors = error.response.data.errors;
+            setTimeout(() => {
+              this.errors = [];
+              this.compartments.error = false;
+            }, 1500);
+          } else this.Shake(error);
+        });
+    },
+    update_something(id, type) {
+      axios
+        .post("api/update_something", {
+          id,
+          type,
+          input: this.compartments.input,
+        })
+        .then((response) => {
+          if (type == "compartments") {
+            if (id == this.compartments.selected.id)
+              this.compartments.selected.id = 0;
+          }
+          this.arrangeInformationAfterCRUD(type);
+          this.fillUpdateFields(0);
         })
         .catch((error) => {
           if (table == "compartments") {

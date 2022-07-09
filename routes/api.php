@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('/filterCompartmentId', "App\Http\Controllers\Controller@filterCompartmentId")->name("filterCompartmentId");
 
     Route::post('/new_info', "App\Http\Controllers\Controller@new_info")->name("new_info");
+    Route::post('/update_something', "App\Http\Controllers\Controller@update_something")->name("update_something");
     Route::post('/get_info_files', "App\Http\Controllers\Controller@get_info_files")->name("get_info_files");
     Route::post('/delete_something', "App\Http\Controllers\Controller@delete_something")->name("delete_something");
     // SETTINGS
