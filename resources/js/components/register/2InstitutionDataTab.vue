@@ -187,7 +187,7 @@ import { required } from "vuelidate/lib/validators";
 
 export default {
   components: { listInstitutionsByUser },
-  props: ["clickSubmit", "dataNastere"],
+  props: ["clickSubmit", "dataNastere", "settingsInfo"],
   data() {
     return {
       errorPrimite: 0,
@@ -208,6 +208,7 @@ export default {
   created() {
     this.$emit("sendErrorForm2", this.errorForm2);
   },
+  mounted() {},
   computed: {
     errorLocal() {
       let error = 0;
@@ -246,8 +247,19 @@ export default {
       return this.dataNastere;
     },
   },
-
   watch: {
+    settingsInfo: function () {
+      if (this.settingsInfo) {
+        let dictionar = {
+          tipUser: "user_type",
+          dataInstitutionFinish: "date_finish",
+        };
+        for (const key in dictionar) {
+          this.institutionData[key] = this.settingsInfo[dictionar[key]];
+        }
+        this.prezentChecked = this.settingsInfo.personal_activity;
+      }
+    },
     errorForm2: function () {
       this.$emit("sendErrorForm2", this.errorForm2);
     },

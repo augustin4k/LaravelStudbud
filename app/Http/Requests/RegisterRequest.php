@@ -52,8 +52,8 @@ class RegisterRequest extends FormRequest
             'an-finish-institutie' => 'exclude_if:tip_user,student0,student1,profesor|required|date|after_or_equal:an-fondare-institutie',
             // 
             'avatar-image' => 'required|mimes:jpeg,jpg,png',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:4|max:12|confirmed',
+            'email' => 'sometimes|required|email|unique:users,email',
+            'password' => 'sometimes|required|min:4|max:12|confirmed',
         ];
     }
 }

@@ -50,9 +50,8 @@ class RegisterController extends Controller
 
         // create directory for photos of user
         File::makeDirectory(public_path() . '/img/users_photos/user_' . $users->id);
-        $extension = $input['avatar-image']->getClientOriginalExtension();
-        $file_name = rand() . time() . '.' . $extension;
-        $input['avatar-image']->move(public_path() . '/img/users_photos/user_' . $users->id, $file_name);
+        $file_name = '';
+        $this->uploadAvatar($users, $input, $file_name);
 
         // editare avatar path, deoarece la inserare nu aveam id-ul noului user inserat, am pus o valoare default care ulterior am schimbat-o
         $edit_path = user::where('id', $users->id)->get()[0];
@@ -96,9 +95,45 @@ class RegisterController extends Controller
         return redirect()->back()->withErrors(['esuare-logare' => 'Nu te-am putut inregistra, au aparut careva probleme!']);
     }
 
+    // helpers 
+    function uploadAvatar($users, $input, &$file_name)
+    {
+        $extension = $input['avatar-image']->getClientOriginalExtension();
+        $file_name = rand() . time() . '.' . $extension;
+        $input['avatar-image']->move(public_path() . '/img/users_photos/user_' . $users->id, $file_name);
+    }
+
     // SETTINGS
     public function get_info_settings(Request $req)
     {
-        return ['personalData' => Auth::user()];
+        if ($req->type == 'personal_data')
+            return ['personalData' => Auth::user()];
+        else if ($req->type == 'activities_data') {
+            if (Auth::user()->user_type != 'student0' && Auth::user()->user_type != 'universitate') {
+                return User::where('id', Auth::user()->id)->first()->activities()->get();
+            }
+        }
+    }
+    public function update_settings(RegisterRequest $req)
+    {
+        $input = $req->all();
+        $dictionar = [
+            'name' => 'Numele',
+            'surname' => 'Prenumele',
+            'date_birth' => 'Data_nasterii',
+            'city' => 'Orasul',
+            'country' => 'Tara',
+            'user_type' => 'tip_user',
+            'avatar_path' => 'avatar-image',
+        ];
+        foreach ($dictionar as $key => $value) {
+            if (Auth::user()->$key != $input[$value]) {
+                User::where('id', Auth::user()->id)->update([$key => $input[$value]]);
+                if ($key == 'avatar_path') {
+                    unlink(Auth::user()->avatar_path);
+                    $this->upload(Auth::user(), $input);
+                }
+            }
+        }
     }
 }

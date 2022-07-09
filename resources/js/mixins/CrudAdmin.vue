@@ -21,7 +21,6 @@ export default {
       }
     },
     openNewTab(selected) {
-      console.log(selected);
       for (let index = 0; index < selected.length; index++) {
         window.open("/timeline?id=" + selected[index]["#ID"], "_blank");
       }

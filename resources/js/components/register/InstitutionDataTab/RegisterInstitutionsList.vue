@@ -39,6 +39,7 @@
         @callBackErrors="getErrorFromItemInstitution"
         v-for="n in nr_institutii"
         :key="n"
+        :infoInstitution="prepareActivitiesIfExist(getActivities, n)"
         :nr-institutie="n"
         :tip_user="tip_user"
         :clickSubmit="clickSubmit"
@@ -59,16 +60,30 @@ export default {
       numberInstitution: 1,
       erroriPrimite: [],
       totalErrors: 0,
+      getActivities: [],
     };
   },
   mounted() {
     this.$emit("sendErors", this.totalErrors);
+    if (this.tip_user != "student0") {
+      axios
+        .post("api/get_info_settings", {
+          type: "activities_data",
+        })
+        .then((response) => {
+          let get_data = response.data;
+          if (get_data && this.tip_user != "universitate") {
+            this.numberInstitution = get_data.length;
+            this.nr_institutii = this.numberInstitution;
+            this.getActivities = get_data;
+          }
+        });
+    }
   },
   watch: {
     numberInstitution: function () {
       if (this.numberInstitution <= 0) this.numberInstitution = 1;
     },
-
     nr_institutii(newVal, oldVal) {
       let resetErrorsIndexes = newVal - oldVal;
       if (resetErrorsIndexes < 0) {
@@ -79,12 +94,17 @@ export default {
       }
       this.countErrors();
     },
-
     totalErrors: function () {
       this.$emit("sendErors", this.totalErrors);
     },
   },
   methods: {
+    prepareActivitiesIfExist(arrayActivities, index) {
+      index = index - 1;
+      if (arrayActivities && arrayActivities[index])
+        return arrayActivities[index];
+      else return null;
+    },
     countErrors() {
       let countErrors = 0;
       for (const key in this.erroriPrimite) {

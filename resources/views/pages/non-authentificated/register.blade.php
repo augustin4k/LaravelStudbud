@@ -18,7 +18,8 @@
                     </ul>
                 </div>
             @endif
-            <v-register name-route="{{ route('user-register') }}" csrf-token="{{ csrf_token() }}"></v-register>
+            <v-register type='register' name-route="{{ route('user-register') }}" csrf-token="{{ csrf_token() }}">
+            </v-register>
         </div>
     </div>
 @endsection

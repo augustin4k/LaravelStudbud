@@ -491,7 +491,7 @@
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
-  props: ["nrInstitutie", "tip_user", "clickSubmit"],
+  props: ["nrInstitutie", "tip_user", "clickSubmit", "infoInstitution"],
   data() {
     return {
       // tip_user: this.tip_user,
@@ -526,6 +526,9 @@ export default {
   created() {
     this.$emit("callBackErrors", this.errorTotal, this.nrInstitutie);
   },
+  mounted() {
+    this.createSettings();
+  },
   computed: {
     errorTotal() {
       let error = 0;
@@ -558,7 +561,33 @@ export default {
       return error;
     },
   },
+  methods: {
+    createSettings() {
+      console.log(this.infoInstitution);
+      if (this.infoInstitution != null) {
+        var dictionar = {
+          denumireaInstitutie: "name_institution",
+          dataStart: "date_start",
+          dataFinal: "date_finish",
+          tara: "country",
+          oras: "city",
+          grad: "grade",
+          specializare: "specialization",
+        };
+        for (const key in dictionar) {
+          this.validationArray[key] = this.infoInstitution[dictionar[key]];
+        }
+        this.prezentChecked = this.infoInstitution.prezent_activity;
+      }
+    },
+  },
   watch: {
+    infoInstitution: {
+      handler(newValue, oldValue) {
+        this.createSettings();
+      },
+      deep: true,
+    },
     prezentChecked: function () {
       this.validationArray.dataFinal = new Date().toISOString().split("T")[0];
     },

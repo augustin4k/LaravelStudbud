@@ -63,15 +63,13 @@ export default {
       get_status: this.status,
     };
   },
-  mounted() {
-    console.log(this.get_status);
-  },
+  mounted() {},
   methods: {
     edit_friendship(action) {
       axios
         .post("api/edit-friendship", { user: this.user, action: action })
         .then((response) => {
-        //   this.get_status = response.data;
+          //   this.get_status = response.data;
           window.location.reload();
         });
     },

@@ -189,7 +189,6 @@ export default {
             info: this.field,
           })
           .then((response) => {
-            console.log(response.data);
             this.Message.Sended = true;
             this.Message.IsSending = false;
             setTimeout(() => {

@@ -539,9 +539,7 @@ export default {
           user: { id: this.selected_user_id },
           action: action,
         })
-        .then((response) => {
-          console.log(response.data);
-        });
+        .then((response) => {});
     },
     scroll_bottom() {
       setTimeout(function () {
@@ -565,7 +563,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data);
           this.images = [];
           this.message = "";
           this.$refs.images.value = null;

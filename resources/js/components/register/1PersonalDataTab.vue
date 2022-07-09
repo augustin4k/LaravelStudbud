@@ -444,6 +444,7 @@ export default {
         type: "personal_data",
       })
       .then((response) => {
+        this.$emit("getSettingsInfo", response.data.personalData);
         let dictionar = {
           numele: "name",
           prenumele: "surname",

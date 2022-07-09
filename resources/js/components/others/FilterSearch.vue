@@ -174,7 +174,6 @@ export default {
       }
     },
     ResetFilters: function (newVal) {
-      console.log("resetFilters");
       if (newVal == 1) {
         for (let key in this.filter) {
           if (key != "orderBy") {

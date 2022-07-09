@@ -125,7 +125,6 @@ export default {
       return error;
     },
   },
-
   watch: {
     errorTotal: function () {
       this.$emit("sendErrorForm4", this.errorTotal);

@@ -68,7 +68,6 @@ export default {
       { title: "Dislike-uri totale", count: 0, color: "danger" },
     ];
     axios.post("api/GetStatistics", { dictionar }).then((response) => {
-      console.log(response.data);
       this.Statistics = response.data;
     });
   },

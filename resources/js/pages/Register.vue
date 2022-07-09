@@ -12,7 +12,7 @@
         deloc sau au fost completate gresit
       </p>
     </div>
-
+    {{errorsTotal}}
     <form method="POST" :action="nameRoute"
     enctype=multipart/form-data  :class="[clickSubmit > 0 ?
     'was-validated' : 'needs-validation', ShowErrorRegister? 'shake': '']" novalidate >
@@ -125,6 +125,7 @@
               aria-labelledby="personal-data"
             >
               <personalDataTab
+                @getSettingsInfo="getSettingsInfo"
                 @sendFieldsPersonal="getPersonalFields"
                 @sendErrorForm1="getForm1Error"
                 @sendDataNastere="getDataNasterii"
@@ -138,6 +139,7 @@
               aria-labelledby="institution-data"
             >
               <institutionDataTab
+                :settingsInfo="settingsInfo"
                 :clickSubmit="clickSubmit"
                 @sendErrorForm2="getForm2Error"
                 :dataNastere="dataNastere"
@@ -153,6 +155,7 @@
                 @sendAvatar="getAvatar"
                 @showErrorsForm3="getForm3Error"
                 :clickSubmit="clickSubmit"
+                :avatar_path="settingsInfo.avatar_path"
               />
             </div>
             <div
@@ -171,7 +174,7 @@
           </div>
           <div class="card-footer bg-white">
             <div class="hstack flex-row-reverse justify-content-between">
-              <template v-if="clickerCount < 3">
+              <template v-if="clickerCount < 3&&type=='register'||clickerCount<2&&type=='setari'">
                 <button
                   type="button"
                   @click="clickerCount++"
@@ -180,20 +183,33 @@
                   Next
                 </button>
               </template>
-              <template v-else>
+              <template v-else-if="clickerCount==2&&type=='setari'||clickerCount==3&&type=='register'">
+              <!-- <template v-else> -->
                 <button
-                  class="btn btn-primary float-right"
-                  :class="{disabled:SuccessfulRegistered}"
+                  class="btn float-right"
+                  :class="
+                  [SuccessfulRegistered?'disabled': '',type=='setari'?'btn-success':'btn-primary']
+                  "
                   :type="[errorsTotal > 0 ? 'button' : 'submit']"
                   @click="clickSubmit = 1; SubmitClickerCount++;"
                   name="finish-register"
                 >
                 <template v-if='SuccessfulRegistered==false'>
-                  Finiseaza
+                  <template v-if='type=="register"'>
+                    Finiseaza
+                  </template>
+                  <template v-else>
+                    Update
+                  </template>
                 </template>
                 <template v-else>
                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <template v-if='type=="register"'>
                    Inregistrare cu success...
+                </template>
+                <template v-else>
+                    Editare setari cu success...
+                </template>
                 </template>
                 </button>
               </template>
@@ -253,7 +269,14 @@ export default {
         avatar: {},
         auth: {},
       },
+      settingsInfo: {},
     };
+  },
+  mounted() {
+    if (this.type == "setari") {
+      this.errors.form4 = 0;
+      this.errors.form3 = 0;
+    }
   },
   computed: {
     errorsTotal: function () {
@@ -281,6 +304,9 @@ export default {
     },
   },
   methods: {
+    getSettingsInfo(data) {
+      this.settingsInfo = data;
+    },
     getPersonalFields(data) {
       this.fields.personal = data;
     },
@@ -290,10 +316,8 @@ export default {
     getFieldsAuth(data) {
       this.fields.auth = data;
     },
-
     getFieldsAvatar(data) {
       this.fields.avatar = data;
-      console.log(this.avatar);
     },
     getDataNasterii(event) {
       this.dataNastere = event;

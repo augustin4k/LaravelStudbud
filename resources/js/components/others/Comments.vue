@@ -393,7 +393,6 @@ export default {
         });
     },
     send_message() {
-      console.log(this.comment_reply.id);
       axios
         .post("api/insert_comment", {
           message: this.message,
@@ -410,14 +409,13 @@ export default {
           }
           this.message = "";
           this.comment_reply = [];
+        })
+        .catch((error) => {
+          this.shake = true;
+          setTimeout(() => {
+            this.shake = false;
+          }, 1500);
         });
-      // .catch((error) => {
-      //   console.log(error.response);
-      //   this.shake = true;
-      //   setTimeout(() => {
-      //     this.shake = false;
-      //   }, 1500);
-      // });
     },
   },
 };

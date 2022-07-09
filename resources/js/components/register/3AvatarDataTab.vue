@@ -3,7 +3,7 @@
     <div class="card-header bg-info text-white">Avatar</div>
     <div class="card-body">
       <div
-        :class="[errorForm3 > 0 ? '' : 'd-none']"
+        v-if="errorForm3 > 0"
         class="alert alert-warning d-flex justify-content-center"
         role="alert"
       >
@@ -65,6 +65,7 @@
 
 <script>
 export default {
+  props: ["avatar_path"],
   data() {
     return {
       errorForm3: 1,
@@ -74,10 +75,17 @@ export default {
     };
   },
   watch: {
+    avatar_path: function () {
+      if (this.avatar_path) {
+        this.userData.sourceAvatarPreload = this.avatar_path;
+        this.errorForm3--;
+      }
+    },
     errorForm3: function (newVal) {
       this.$emit("showErrorsForm3", newVal);
     },
   },
+  mounted() {},
   methods: {
     getFileSource(event) {
       this.userData["sourceAvatarPreload"] = URL.createObjectURL(
