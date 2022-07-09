@@ -378,7 +378,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Like-uri</h5>
+            <h5 class="modal-title">{{ modal.name }}</h5>
             <button
               type="button"
               class="btn-close"
@@ -396,10 +396,7 @@
                 :key="user.user_id"
                 class="col-md-6 col-12"
               >
-                <friend-item
-                  :item="user"
-                  :im_user="selected_user_id == my_id"
-                />
+                <friend-item :item="user" :im_user="user.user_id == my_id" />
               </div>
             </div>
             <div v-else class="alert alert-secondary" role="alert">
@@ -489,6 +486,7 @@ export default {
       placeholders: true,
       my_avatar: "",
       modal: {
+        name: "",
         users_list: [],
         post: {},
       },
@@ -587,7 +585,8 @@ export default {
     send_post(data) {
       this.modal.post = data;
     },
-    modal_user_list(users) {
+    modal_user_list(users, name) {
+      this.modal.name = name;
       this.modal.users_list = users;
     },
     modal_delete(data) {

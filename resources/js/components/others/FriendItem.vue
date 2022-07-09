@@ -2,12 +2,7 @@
   <div class="mb-3 pb-3 border-bottom">
     <div class="d-flex align-items-start">
       <a :href="'/timeline?id=' + user.id">
-        <img
-          class="rounded me-1"
-          src="https://bootdey.com/img/Content/avatar/avatar6.png"
-          alt=""
-          width="50px"
-        />
+        <img class="rounded me-1" :src="user.avatar_path" alt="" width="50px" />
       </a>
       <div class="d-flex flex-column w-100">
         <div class="d-flex justify-content-between flex-wrap gap-2">
@@ -82,7 +77,7 @@
             </template>
           </div>
         </div>
-        <template v-if="user.common_friends > 0">
+        <template v-if="user.common_friends > 0 && im_user == false">
           <small class="text-secondary fw-bold">
             {{ user.common_friends }} prieteni comuni
           </small>

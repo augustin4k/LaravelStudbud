@@ -74,11 +74,11 @@
               >
                 <i class="fa-solid fa-thumbs-up"></i>
                 <template v-if="post.likes && post.likes.length">
-                  ({{ post.likes.length }})
+                  [{{ post.likes.length }}]
                 </template>
               </button>
               <button
-                @click="$emit('modal_user_list', post.likes)"
+                @click="$emit('modal_user_list', post.likes, 'Like-uri')"
                 data-bs-toggle="modal"
                 :data-bs-target="'#users_list'"
                 class="btn btn-primary btn-sm"
@@ -95,13 +95,13 @@
               >
                 <i class="fa-solid fa-thumbs-down"> </i>
                 <template v-if="post.dislikes && post.dislikes.length">
-                  ({{ post.dislikes.length }})
+                  [{{ post.dislikes.length }}]
                 </template>
               </button>
               <button
                 data-bs-toggle="modal"
                 :data-bs-target="'#users_list'"
-                @click="$emit('modal_user_list', post.dislikes)"
+                @click="$emit('modal_user_list', post.dislikes, 'Dislike-uri')"
                 class="btn btn-sm btn-primary"
               >
                 <i class="bi bi-caret-down-fill"></i>

@@ -78,18 +78,21 @@ foreach ($compartments as $key => $value) {
         <div class="grid-margin profile-header">
             <div class="cover">
                 <div class="gray-shade"></div>
-                <figure> <img src="https://bootdey.com/img/Content/bg1.jpg" class="img-fluid" alt=""> </figure>
+                <figure> <img src="https://cdn.wallpapersafari.com/41/16/QL5I0O.jpg" class="img-fluid" alt="">
+                </figure>
                 <div class="cover-body hstack justify-content-between">
                     <div class="d-sm-flex hstack d-block gap-2">
                         @if ($status == 'block_me')
                             <img class="profile-pic rounded" src="/img/no-avatar.png" alt="profile" />
                         @elseif ($status != 'block_me')
                             <a href="#modelId" data-bs-toggle="modal" data-bs-target="#modelId">
-                                <img class="profile-pic rounded" src="@php
+                                <img class="profile-pic rounded"
+                                    src="@php
                                     echo App\Models\User::select('avatar_path')
                                         ->where('id', $_GET['id'])
                                         ->get()[0]->avatar_path;
-                                @endphp" alt="profile" />
+                                @endphp"
+                                    alt="profile" />
                             </a>
                             @push('modals')
                                 <!-- Modal -->
@@ -103,10 +106,12 @@ foreach ($compartments as $key => $value) {
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <img class="w-100" src="@php
+                                                <img class="w-100"
+                                                    src="@php
                                                     echo App\Models\User::select('avatar_path')
                                                         ->where('id', $_GET['id'])
-                                                    ->get()[0]->avatar_path; @endphp" alt="profile" />
+                                                    ->get()[0]->avatar_path; @endphp"
+                                                    alt="profile" />
                                             </div>
                                         </div>
                                     </div>
