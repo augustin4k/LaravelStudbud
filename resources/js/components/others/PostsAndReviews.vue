@@ -324,6 +324,13 @@
             <div class="border-top w-100"></div>
           </div>
         </div>
+        <div
+          v-if="Bool.showMesssageResultSearch"
+          class="alert alert-warning"
+          role="alert"
+        >
+          <strong>Rezultatele cautarii</strong>
+        </div>
         <post-item
           v-for="post in posts_info"
           :key="post.id"

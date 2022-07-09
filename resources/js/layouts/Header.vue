@@ -2,7 +2,7 @@
   <div>
     <!-- canvas -->
     <div
-      class="offcanvas offcanvas-start w-75 bg-light"
+      class="offcanvas offcanvas-start w-75 h-100 bg-light"
       tabindex="-1"
       id="offcanvasMobileNavigation"
       aria-labelledby="offcanvasMobileNavigationLabel"
@@ -25,14 +25,14 @@
       <div class="container">
         <div class="w-100">
           <div class="hstack" :class="[ScreenMoreMd ? 'row' : 'gap-2']">
-            <div :class="[ScreenMoreMd ? 'col-3' : '']">
+            <div :class="{ 'col-3': ScreenMoreMd }">
               <a
-                :data-bs-toggle="{ offcanvas: ScreenMoreMd == false }"
-                :aria-controls="{
-                  offcanvasMobileNavigation: ScreenMoreMd == false,
-                }"
+                :data-bs-toggle="[ScreenMoreMd == false ? 'offcanvas' : '']"
+                :aria-controls="[
+                  ScreenMoreMd == false ? 'offcanvasMobileNavigation' : '',
+                ]"
                 class="navbar-brand m-0"
-                :class="{ 'text-white btn btn-primary': ScreenMoreMd == false }"
+                :class="{ 'text-white btn btn-secondary btn-secondary': ScreenMoreMd == false }"
                 :href="[ScreenMoreMd ? '/feed' : '#offcanvasMobileNavigation']"
               >
                 <i class="fa fa-graduation-cap" aria-hidden="true"></i>

@@ -232,19 +232,11 @@ text/plain, application/pdf"
                   </div>
                 </div>
                 <i
-                  class="
-                    bi bi-filetype-docx
-                    fa-4x
-                    text-primary
-                    d-sm-inline d-none
-                  "
-                ></i>
-                <i
-                  class="
-                    bi bi-filetype-docx
-                    fa-3x
-                    text-primary
-                    d-sm-none d-inline
+                  :class="
+                    'bi bi-filetype-' +
+                    getExtension(file.name) +
+                    ' fa-3x ' +
+                    filter_extension_color(getExtension(file.name), 'file_card')
                   "
                 ></i>
               </div>
@@ -446,7 +438,21 @@ export default {
     this.getInfo("compartments", null);
     this.getInfo("files", null);
   },
+  computed: {
+    CurrentCompartment() {
+      if (
+        this.compartments.get_compartments &&
+        this.compartments.get_compartments.length > 0
+      ) {
+        return this.compartments.selected.id;
+      } else return null;
+    },
+  },
   methods: {
+    getExtension(fileName) {
+      let extension = fileName.split(".");
+      return extension.slice(-1);
+    },
     clearInputs(table_name) {
       if (table_name == "compartments")
         for (let key in this.compartments.input)
@@ -487,7 +493,9 @@ export default {
           },
         })
         .then((response) => {
-          this.getInfo(table, null);
+          if (table == "compartments") {
+            this.getInfo(table, null);
+          } else this.getInfo(table, this.CurrentCompartment());
           this.clearInputs(table);
         })
         .catch((error) => {
@@ -534,10 +542,13 @@ export default {
           type,
         })
         .then((response) => {
-          if (type == "compartments")
+          if (type == "compartments") {
             if (id == this.compartments.selected.id)
               this.compartments.selected.id = 0;
-          this.getInfo(type, null);
+            this.getInfo(type, null);
+          } else {
+            this.getInfo(type, this.CurrentCompartment());
+          }
         });
     },
     // for styling
@@ -550,6 +561,12 @@ export default {
         else if (document_extension.includes("pdf"))
           return "bg-danger text-danger";
         else return "bg-secondary text-secondary";
+      } else if (_for == "file_card") {
+        if (document_extension.includes("doc")) {
+          return "text-primary";
+        } else if (document_extension.includes("xls")) return "text-success";
+        else if (document_extension.includes("pdf")) return "text-danger";
+        else return "text-secondary";
       }
     },
   },

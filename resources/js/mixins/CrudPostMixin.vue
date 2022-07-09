@@ -1,5 +1,12 @@
 <script>
 export default {
+  data() {
+    return {
+      Bool: {
+        showMesssageResultSearch: false,
+      },
+    };
+  },
   mounted() {
     this.post_card_initiate();
     axios
@@ -27,8 +34,15 @@ export default {
       else this.post_card = { images: [], text: "" };
     },
     FilterReviewsPosts(filter, OriginalArray) {
+      var flag = false;
       if (filter != undefined) {
         for (let key in filter) {
+          if (
+            (key != "orderBy" && Object.values(filter[key]).includes(true)) ||
+            (key == "message" && filter[key].length > 0)
+          ) {
+            flag = true;
+          }
           if (key != "orderBy" && key != "note" && key !== "message") {
             if (Object.values(filter[key]).includes(true))
               OriginalArray = OriginalArray.filter(
@@ -40,15 +54,16 @@ export default {
                 (item) => filter[key][item[key]] == true
               );
           } else if (key == "message") {
-            console.log("sadsa");
             OriginalArray = OriginalArray.filter((item) =>
               item.text.includes(filter[key])
             );
           }
         }
       } else {
+        flag = false;
         filter = { orderBy: "date_desc" };
       }
+      this.Bool.showMesssageResultSearch = flag;
       let dictionar = {
         date: "updated_at",
         likes: "likes",

@@ -46,4 +46,7 @@ Route::post('/get_posts_reviews', "App\Http\Controllers\Controller@get_posts_rev
 Route::post('/get_files', "App\Http\Controllers\Controller@get_files")->name("get_files");
 Route::post('/get_comments', "App\Http\Controllers\Controller@get_comments")->name("get_comments");
 Route::post('/send_feedback', "App\Http\Controllers\mailController@send_feedback")->name("send_feedback");
+// help (reusable) functions
+Route::post('/check-login', "App\Http\Controllers\LoginController@checkIfLogin")->name("send_feedback");
+
 Route::post('/GetStatistics', "App\Http\Controllers\Statistics@GetStatistics")->name("GetStatistics");

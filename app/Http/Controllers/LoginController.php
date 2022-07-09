@@ -21,4 +21,8 @@ class LoginController extends Controller
         }
         return redirect()->back()->withErrors(['user-no-exist' => 'Asemenea user nu exista!']);
     }
+    public function checkIfLogin()
+    {
+        return Auth::check();
+    }
 }
