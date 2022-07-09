@@ -23,8 +23,12 @@
           <div class="">
             <div class="hstack">
               <input
+                type="hidden"
+                name="avatar-path"
+                :value="userData.sourceAvatarPreload != '/img/no-avatar.png'"
+              />
+              <input
                 type="file"
-                required
                 @change="getFileSource"
                 ref="inputFile"
                 name="avatar-image"

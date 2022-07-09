@@ -18,7 +18,8 @@
                     </ul>
                 </div>
             @endif
-            <v-register type='setari' name-route="{{ route('user-update-settings') }}" csrf-token="{{ csrf_token() }}">
+            <v-register success_message='{{ session('message_success') }}' type='setari'
+                name-route="{{ route('user-update-settings') }}" csrf-token="{{ csrf_token() }}">
             </v-register>
         </div>
     </div>

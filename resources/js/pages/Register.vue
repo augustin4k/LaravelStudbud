@@ -12,7 +12,14 @@
         deloc sau au fost completate gresit
       </p>
     </div>
-    {{errorsTotal}}
+    <div
+      v-if="Alerts.successMessage"
+      class="alert alert-success w3-animate-left"
+      role="alert"
+    >
+      <strong class="hstack justify-content-center">Setari salvate cu success</strong>
+    </div>
+
     <form method="POST" :action="nameRoute"
     enctype=multipart/form-data  :class="[clickSubmit > 0 ?
     'was-validated' : 'needs-validation', ShowErrorRegister? 'shake': '']" novalidate >
@@ -90,7 +97,7 @@
               </span>
             </button>
             <button
-              v-if='type!="setari"'
+              v-if='type=="register"'
               class="nav-link hstack gap-1"
               id="list-auth-tab"
               data-bs-toggle="tab"
@@ -159,7 +166,7 @@
               />
             </div>
             <div
-              v-if='type!="setari"'
+              v-if='type=="register"'
               class="tab-pane fade"
               id="list-auth"
               role="tabpanel"
@@ -242,13 +249,13 @@ import avatarDataTab from "../components/register/3AvatarDataTab.vue";
 import authDataTab from "../components/register/4AuthDataTab.vue";
 
 export default {
+  props: ["type", "nameRoute", "csrfToken", "success_message"],
   components: {
     personalDataTab,
     institutionDataTab,
     avatarDataTab,
     authDataTab,
   },
-  props: ["type", "nameRoute", "csrfToken"],
   data() {
     return {
       ShowErrorRegister: false,
@@ -256,6 +263,9 @@ export default {
       clickSubmit: 0,
       SubmitClickerCount: 0,
       SuccessfulRegistered: false,
+      Alerts: {
+        successMessage: false,
+      },
       errors: {
         form1: 4,
         form2: 6,
@@ -276,6 +286,12 @@ export default {
     if (this.type == "setari") {
       this.errors.form4 = 0;
       this.errors.form3 = 0;
+    }
+    if (this.success_message && this.success_message == "settings") {
+      this.Alerts.successMessage = true;
+      setTimeout(() => {
+        this.Alerts.successMessage = false;
+      }, 2000);
     }
   },
   computed: {

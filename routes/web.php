@@ -66,11 +66,14 @@ use App\Models\User;
 
     // WITHOUT MIDDLEWARE
     // return view
-    Route::get('/timeline', "App\Http\Controllers\Controller@timeline")->name("profile-timeline");
-    Route::view('/reviews', 'pages/authentificated/reviews')->name('profile-reviews');
-    Route::get('/friends', "App\Http\Controllers\Controller@friends")->name("profile-friends");
-    Route::view('/about', 'pages/non-authentificated/about')->name('about');
-    Route::view('/contact', 'pages/non-authentificated/contact')->name('contact');
+
+    Route::middleware(['verified', 'guest'])->group(function () {
+        Route::get('/timeline', "App\Http\Controllers\Controller@timeline")->name("profile-timeline");
+        Route::view('/reviews', 'pages/authentificated/reviews')->name('profile-reviews');
+        Route::get('/friends', "App\Http\Controllers\Controller@friends")->name("profile-friends");
+        Route::view('/about', 'pages/non-authentificated/about')->name('about');
+        Route::view('/contact', 'pages/non-authentificated/contact')->name('contact');
+    });
     // pentru submit-uri
     Route::post('/contact/submit', "App\Http\Controllers\Controller@ContactSubmit")->name("contact-submit");
     Route::post('/register/submit', "App\Http\Controllers\RegisterController@submit")->name("user-register");

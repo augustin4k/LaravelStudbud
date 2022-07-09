@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -51,7 +52,8 @@ class RegisterRequest extends FormRequest
             // tip user universitate
             'an-finish-institutie' => 'exclude_if:tip_user,student0,student1,profesor|required|date|after_or_equal:an-fondare-institutie',
             // 
-            'avatar-image' => 'required|mimes:jpeg,jpg,png',
+            // 'avatar-path' => 'required',
+            'avatar-image' => 'sometimes|file|mimes:jpeg,jpg,png',
             'email' => 'sometimes|required|email|unique:users,email',
             'password' => 'sometimes|required|min:4|max:12|confirmed',
         ];
