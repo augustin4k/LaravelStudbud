@@ -36,7 +36,7 @@ use App\Models\User;
         Route::view('/home', 'pages/non-authentificated/login')->name('home');
         Route::view('/login', 'pages/non-authentificated/login')->name('login');
         Route::view('/register', 'pages/non-authentificated/register')->name('register');
-        Route::view('/reset', 'pages/non-authentificated/reset')->name('password.request');
+        Route::view('/reset', 'reset')->name('password.request');
     });
     // vor clients with verified or active account
     Route::middleware('verified')->group(function () {
