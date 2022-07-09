@@ -425,14 +425,11 @@ class Controller extends BaseController
                 $posts = posts_reviews::where([['for_user', $request->selected_user], ['type', 'post']]);
             else {
                 $posts = posts_reviews::where('type', 'post');
-                if (count($myFriends) > 0)
-                    foreach ($myFriends as $key => $value) {
-                        $posts = $posts->where('for_user', $value->id);
-                    }
-                else $posts = $posts->where('for_user', auth()->user()->id);
+                $posts = $posts->whereIn('for_user', $myFriends)->orWhere('for_user', Auth::user()->id);
             }
-        } else
+        } else {
             $posts = posts_reviews::where([['for_user', $request->selected_user], ['type', 'reviews']]);
+        }
         $posts = $posts->get();
 
         foreach ($posts as $key => $post) {
@@ -447,6 +444,7 @@ class Controller extends BaseController
         else $my_avatar = null;
         return ['posts' => $posts, 'my_avatar' => $my_avatar];
     }
+
     public function delete_post(Request $request)
     {
         posts_reviews::where([['id', $request->post_id], ['by_user', auth()->user()->id]])->delete();
@@ -628,7 +626,7 @@ class Controller extends BaseController
     }
 
     // FILES API
-    
+
     // public function filterCompartmentId(Request $request)
     // {
     //     $compartment = Compartments::where('user_id', $request->selectedUserID);

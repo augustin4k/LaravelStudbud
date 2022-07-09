@@ -126,7 +126,6 @@ class RegisterController extends Controller
     public function update_settings(RegisterRequest $req)
     {
         $input = $req->all();
-
         $dictionar = [
             'name' => 'Numele',
             'surname' => 'Prenumele',

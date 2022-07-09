@@ -52,7 +52,7 @@ class RegisterRequest extends FormRequest
             // tip user universitate
             'an-finish-institutie' => 'exclude_if:tip_user,student0,student1,profesor|required|date|after_or_equal:an-fondare-institutie',
             // 
-            // 'avatar-path' => 'required',
+            'avatar-path' => 'required|accepted',
             'avatar-image' => 'sometimes|file|mimes:jpeg,jpg,png',
             'email' => 'sometimes|required|email|unique:users,email',
             'password' => 'sometimes|required|min:4|max:12|confirmed',

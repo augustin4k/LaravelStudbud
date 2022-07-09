@@ -71,7 +71,10 @@
                 :key="user.id"
                 class="col-12 col-sm-6 col-lg-12 col-xl-6"
               >
-                <friend-item :item="user" :im_user="im_user"></friend-item>
+                <friend-item
+                  :item="user"
+                  :im_user="me.id == user.id"
+                ></friend-item>
               </li>
             </ul>
           </b-collapse>
@@ -162,7 +165,10 @@
                     :key="user.id"
                     class="col-12 col-sm-6 col-lg-12 col-xl-6"
                   >
-                    <friend-item :item="user" :im_user="im_user"></friend-item>
+                    <friend-item
+                      :item="user"
+                      :im_user="me.id == user.id"
+                    ></friend-item>
                   </li>
                 </ul>
               </div>

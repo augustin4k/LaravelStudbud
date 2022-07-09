@@ -53,7 +53,6 @@ use App\Models\User;
         })->name('chat');
         Route::get('/search', "App\Http\Controllers\Controller@search_people")->name("search-people");
         Route::view('/feed', 'pages/authentificated/feed')->name('profile-feed');
-        Route::view('/files', 'pages/authentificated/files')->name('profile-files');
         Route::view('/settings', 'pages/authentificated/settings')->name('profile-settings');
         Route::post('/settings/update', "App\Http\Controllers\RegisterController@update_settings")->name("user-update-settings");
         // for clients that are admins
@@ -65,15 +64,13 @@ use App\Models\User;
     });
 
     // WITHOUT MIDDLEWARE
+    Route::get('/timeline', "App\Http\Controllers\Controller@timeline")->name("profile-timeline");
+    Route::view('/reviews', 'pages/authentificated/reviews')->name('profile-reviews');
+    Route::get('/friends', "App\Http\Controllers\Controller@friends")->name("profile-friends");
+    Route::view('/files', 'pages/authentificated/files')->name('profile-files');
     // return view
-
-    Route::middleware(['verified', 'guest'])->group(function () {
-        Route::get('/timeline', "App\Http\Controllers\Controller@timeline")->name("profile-timeline");
-        Route::view('/reviews', 'pages/authentificated/reviews')->name('profile-reviews');
-        Route::get('/friends', "App\Http\Controllers\Controller@friends")->name("profile-friends");
-        Route::view('/about', 'pages/non-authentificated/about')->name('about');
-        Route::view('/contact', 'pages/non-authentificated/contact')->name('contact');
-    });
+    Route::view('/about', 'pages/non-authentificated/about')->name('about');
+    Route::view('/contact', 'pages/non-authentificated/contact')->name('contact');
     // pentru submit-uri
     Route::post('/contact/submit', "App\Http\Controllers\Controller@ContactSubmit")->name("contact-submit");
     Route::post('/register/submit', "App\Http\Controllers\RegisterController@submit")->name("user-register");
@@ -138,6 +135,6 @@ use App\Models\User;
 }
 
 // pentru vue js
-// Route::get('/{any}', function () {
-//     return view('layouts.AadminPanel');
-// })->where("any", '.*');
+Route::get('/{any}', function () {
+    return redirect()->back();
+})->where("any", '.*');

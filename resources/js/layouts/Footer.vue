@@ -11,14 +11,10 @@
           <a href="/contact" class="nav-link px-2 text-muted">Contact</a>
         </li>
         <li class="nav-item">
-          <a href="/StudBud/about-us.php#about" class="nav-link px-2 text-muted"
-            >Features</a
-          >
+          <a href="/about#about" class="nav-link px-2 text-muted">Features</a>
         </li>
         <li class="nav-item">
-          <a href="/StudBud/about-us.php" class="nav-link px-2 text-muted"
-            >About</a
-          >
+          <a href="/about" class="nav-link px-2 text-muted">About</a>
         </li>
       </ul>
       <p class="text-center text-muted">&copy; 2022 StudBud</p>

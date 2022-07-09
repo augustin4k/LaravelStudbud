@@ -345,8 +345,15 @@
         ></post-item>
       </template>
       <template v-else>
-        <div class="alert alert-primary" role="alert">
-          <strong>Nu exista postari.</strong>
+        <div
+          class="alert"
+          :class="[
+            (type == 'reviews') == false ? 'alert-primary' : 'alert-success',
+          ]"
+          role="alert"
+        >
+          <strong v-if="type == 'reviews'">Nu exista recenzii.</strong>
+          <strong v-else>Nu exista postari.</strong>
         </div>
       </template>
     </template>

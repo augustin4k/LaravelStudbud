@@ -1,7 +1,7 @@
 <template>
   <div class="mb-3 pb-3 border-bottom">
     <div class="d-flex align-items-start">
-      <a href="/profile/">
+      <a :href="'/timeline?id=' + user.id">
         <img
           class="rounded me-1"
           src="https://bootdey.com/img/Content/avatar/avatar6.png"

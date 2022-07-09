@@ -100,7 +100,7 @@
                   </div>
                 </a>
               </div>
-              <div v-else-if="users_info.length == 0" class="p-3">
+              <div v-else-if="users_info.length == 0" class="p-3 px-0">
                 <div class="alert alert-secondary" role="alert">
                   <strong>Nu aveti conversatii cu useri cu asa nume...</strong>
                 </div>
@@ -146,6 +146,7 @@
                     :src="user.avatar_path"
                     alt="avatar"
                     height="40px"
+                    width="40px"
                   />
                 </a>
                 <div class="chat-about small">
