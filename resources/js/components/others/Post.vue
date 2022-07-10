@@ -117,7 +117,7 @@
             >
               <i class="fa-solid fa-message"></i>
               <template v-if="post.comments && post.comments.length > 0">
-                ({{ post.comments.length }})
+                [{{ post.comments.length }}]
               </template>
             </button>
           </div>

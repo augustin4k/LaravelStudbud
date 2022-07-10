@@ -133,7 +133,7 @@
                       >
                         Reply
                         <template v-if="comment.replies.length > 0">
-                          ({{ comment.replies.length }})
+                          [{{ comment.replies.length }}]
                         </template>
                       </b-button>
                       <button
@@ -156,7 +156,7 @@
                       >
                         <i class="fa-solid fa-thumbs-up"></i>
                         <template v-if="comment.likes.length > 0">
-                          ({{ comment.likes.length }})
+                          [{{ comment.likes.length }}]
                         </template>
                       </button>
                       <button
@@ -182,7 +182,7 @@
                       >
                         <i class="fa-solid fa-thumbs-down"></i>
                         <template v-if="comment.dislikes.length > 0">
-                          ({{ comment.dislikes.length }})
+                          [{{ comment.dislikes.length }}]
                         </template>
                       </button>
                       <button
@@ -251,7 +251,7 @@
                         >
                           <i class="fa-solid fa-thumbs-up"></i>
                           <template v-if="reply.likes.length > 0">
-                            ({{ reply.likes.length }})
+                            [{{ reply.likes.length }}]
                           </template>
                         </button>
                         <button
@@ -275,7 +275,7 @@
                         >
                           <i class="fa-solid fa-thumbs-down"></i>
                           <template v-if="reply.dislikes.length > 0">
-                            ({{ reply.dislikes.length }})
+                            [{{ reply.dislikes.length }}]
                           </template>
                         </button>
                         <button
