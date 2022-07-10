@@ -36,7 +36,7 @@ class Controller extends BaseController
 
         $myFriends = $this->my_friends();
 
-        $users = User::select('id', db::raw('concat(name, " ",surname) as name'), 'city', 'country', 'user_type')
+        $users = User::select('id', 'avatar_path', db::raw('concat(name, " ",surname) as name'), 'city', 'country', 'user_type')
             ->where('id', '!=', auth()->user()->id)->get();
         foreach ($users as $key => $user) {
             if ($user->user_type != 'universitate') {
@@ -62,7 +62,7 @@ class Controller extends BaseController
         if (count(user::where('id', $request->id)->limit(1)->get()->toArray()) > 0) {
             if (Auth::check()) {
                 // aflu toti userii pentur a-i arata in sugestii, calculez prietenii comuni etc.
-                $users = User::select('id', db::raw("concat(name, ' ', surname) as name"), db::raw('null as common_friends'), db::raw('"not_friends" as status'));
+                $users = User::select('id', 'avatar_path', db::raw("concat(name, ' ', surname) as name"), db::raw('null as common_friends'), db::raw('"not_friends" as status'));
                 $users = $users->where('id', 'not like', auth()->user()->id)->get()->toArray();
                 $friendFor = Friends::select('user_id as prieten_id')->where([['friend_id', auth()->user()->id], ['active', 1], ['blocked_by_id', null]])->get()->toArray();
                 $friendsMine = Friends::select('friend_id as prieten_id')->where([['user_id', auth()->user()->id], ['active', 1], ['blocked_by_id', null]])->get()->toArray();
@@ -137,6 +137,15 @@ class Controller extends BaseController
             return view('pages.authentificated.friends')->with(['users' => $users, 'page' => 'friends', 'friends' => $friends, 'my_profile' => $my_profile, 'user_login' => $user_login]);
         }
         return redirect()->back();
+    }
+    // FRIENDS API
+    // neutilizabila la moment
+    public function get_image_user(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:users,id',
+        ]);
+        return user::where('id', $request->id)->first()->avatar_path;
     }
     // TIMELINE CARD WEB
     public function timeline(Request $request)

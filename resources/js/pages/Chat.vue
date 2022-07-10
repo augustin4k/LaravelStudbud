@@ -87,7 +87,7 @@
                       <div class="name">{{ user.name }}</div>
                       <div class="status hstack justify-content-between">
                         <div class="hstack">
-                          <i class="fa fa-circle online"></i>
+                          <i class="fa fa-circle offline"></i>
                           <p class="mb-0">offline</p>
                         </div>
                         <p class="mb-0 opacity-75">

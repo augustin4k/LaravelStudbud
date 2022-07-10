@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/edit-friendship', "App\Http\Controllers\Controller@edit_friendship")->name("edit_friendship");
-    // CHEAT
+    // CHAT
     Route::post('/show-messages', "App\Http\Controllers\Controller@show_messages")->name("show_messages");
     Route::post('/insert-message', "App\Http\Controllers\Controller@insert_message")->name("insert_message");
     // LIKE
@@ -51,6 +51,9 @@ Route::post('/get_posts_reviews', "App\Http\Controllers\Controller@get_posts_rev
 Route::post('/get_files', "App\Http\Controllers\Controller@get_files")->name("get_files");
 Route::post('/get_comments', "App\Http\Controllers\Controller@get_comments")->name("get_comments");
 Route::post('/send_feedback', "App\Http\Controllers\mailController@send_feedback")->name("send_feedback");
+// FRIEND ITEM
+Route::post('/get_image_user', "App\Http\Controllers\Controller@get_image_user")->name("get_image_user");
+
 // help (reusable) functions
 Route::post('/check-login', "App\Http\Controllers\LoginController@checkIfLogin")->name("send_feedback");
 

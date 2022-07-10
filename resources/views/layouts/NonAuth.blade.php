@@ -8,6 +8,10 @@
             <v-header></v-header>
         @endif
         @yield('content-in-app')
-        <v-footer></v-footer>
+        @if (Auth::check())
+            <v-footer tip="auth"></v-footer>
+        @else
+            <v-footer tip="no-auth"></v-footer>
+        @endif
     </div>
 @endsection

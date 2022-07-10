@@ -13,7 +13,7 @@
           <div class="d-flex gap-2 align-items-center">
             <i class="bi bi-newspaper"></i> Feed
           </div>
-          <span class="badge bg-primary rounded-pill">+14</span>
+          <!-- <span class="badge bg-primary rounded-pill">+14</span> -->
         </div>
       </a>
       <a href="/chat" class="nav-link" id="list-messages-list">
@@ -21,7 +21,7 @@
           <div class="d-flex gap-2 align-items-center">
             <i class="fa fa-comments-o" aria-hidden="true"></i> Messages
           </div>
-          <span class="badge bg-danger rounded-pill">+14</span>
+          <!-- <span class="badge bg-danger rounded-pill">+14</span> -->
         </div>
       </a>
       <a href="/friends" class="nav-link" id="list-messages-list">
@@ -29,7 +29,7 @@
           <div class="d-flex gap-2 align-items-center">
             <i class="fa-solid fa-user-group"></i> Friends
           </div>
-          <span class="badge bg-light text-black rounded-pill">14</span>
+          <!-- <span class="badge bg-light text-black rounded-pill">14</span> -->
         </div>
       </a>
       <a class="nav-link" id="list-messages-list" href="/search">
@@ -40,7 +40,7 @@
         </div>
       </a>
     </div>
-    <v-footer tip="no-auth" class="small"></v-footer>
+    <v-footer tip="auth" class="small"></v-footer>
   </div>
 </template>
 

@@ -2,7 +2,17 @@
   <div class="mb-3 pb-3 border-bottom">
     <div class="d-flex align-items-start">
       <a :href="'/timeline?id=' + user.id">
-        <img class="rounded me-1" :src="user.avatar_path" alt="" width="50px" />
+        <div v-if="show_spinner" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <img
+          v-else
+          class="rounded me-1"
+          :src="user.avatar_path"
+          alt=""
+          width="50px"
+          height="50px"
+        />
       </a>
       <div class="d-flex flex-column w-100">
         <div class="d-flex justify-content-between flex-wrap gap-2">
@@ -18,7 +28,7 @@
             "
           >
             <span> {{ user.name }} </span>
-            <span class="badge rounded-pill bg-success">Online</span>
+            <span class="badge rounded-pill bg-danger">Offline</span>
           </p>
           <div
             class="hstack gap-1"
@@ -98,10 +108,25 @@ export default {
   props: ["item", "im_user", "user_login"],
   data() {
     return {
+      show_spinner: true,
       user: this.item,
+      avatar_path: "",
     };
   },
+  mounted() {
+    // this.get_image();
+    setTimeout(() => {
+      this.show_spinner = false;
+    }, 1000);
+  },
   methods: {
+    get_image() {
+      axios
+        .post("api/get_image_user", { id: this.user.id })
+        .then((response) => {
+          return response.data;
+        });
+    },
     edit_friendship(action) {
       axios
         .post("api/edit-friendship", { user: this.user, action: action })
