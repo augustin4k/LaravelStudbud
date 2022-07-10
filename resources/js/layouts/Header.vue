@@ -208,7 +208,7 @@ export default {
   },
   computed: {
     ScreenMoreMd() {
-      return this.screen_width >= 768;
+      return this.screen_width >= 992;
     },
   },
   created() {

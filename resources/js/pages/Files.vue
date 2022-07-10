@@ -101,7 +101,11 @@ text/plain, application/pdf"
               >
                 Upload
               </button>
-              <button @click="new_info('files')" class="btn btn-primary">
+              <button
+                :class="{ disabled: post_card.images.length == 0 }"
+                @click="new_info('files')"
+                class="btn btn-primary"
+              >
                 Post
               </button>
             </div>

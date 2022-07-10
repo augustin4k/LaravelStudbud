@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between w-100">
           <div>
             <button
-              :class="{ disabled: size_for_canvas }"
+              :class="{ disabled: sizeDisButton }"
               class="btn btn-dark"
               type="button"
               data-bs-toggle="offcanvas"
@@ -228,6 +228,9 @@ export default {
     };
   },
   computed: {
+    sizeDisButton() {
+      return this.screen_width >= 992;
+    },
     items() {
       // return this.originalItems;
       let KeyNameContain = this.fields.filter(
