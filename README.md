@@ -11,7 +11,7 @@ The project is built using Vue.js, HTML5, and CSS for the frontend. The backend 
 ## Installation
 To run StudBud locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/studbud.git](https://github.com/augustin4k/LaravelStudbud.git`
+1. Clone the repository: `git clone https://github.com/augustin4k/LaravelStudbud.git`
 2. Install dependencies: `npm install`
 3. Configure the database connection in the `.env` file
 4. Run the migrations: `php artisan migrate`
